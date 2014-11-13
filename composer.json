@@ -8,7 +8,13 @@
             "email": "dennis@stayhungry.nl"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Binocle\\": "src/"
+        }
+    },
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "pimple/pimple": "~3.0"
     }
 }
