@@ -1,0 +1,14 @@
+{
+    "name": "hungrylab/binocle-framework",
+    "description": "A modern PHP WordPress theme framework",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dennis Enderink",
+            "email": "dennis@stayhungry.nl"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    }
+}
