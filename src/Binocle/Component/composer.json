@@ -9,7 +9,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "binocle/support": "1.*"
+        "binocle/support": "dev-master"
     },
     "autoload": {
         "psr-4": {
