@@ -1,6 +1,6 @@
 <?php
 
-namespace Binocle\Core\Facades;
+namespace Binocle\Support\Facades;
 
 use \Binocle\Support\Facade as Facade;
 

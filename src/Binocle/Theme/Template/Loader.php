@@ -1,6 +1,6 @@
 <?php
 
-namespace Binocle\Core\Template;
+namespace Binocle\Theme\Template;
 
 use Binocle\Support;
 
@@ -9,12 +9,12 @@ class Loader
 	/**
 	 * Template to load
 	 * @var string
-	 */	
+	 */
 	private $template;
 
 	/**
 	 * Loader
-	 * @param  string $template 
+	 * @param  string $template
 	 * @return object
 	 */
 	public static function load($template)
@@ -23,22 +23,22 @@ class Loader
 		$template = get_template_directory() != substr($template, 0, strlen(get_template_directory())) ? $template : substr($template, strlen(get_template_directory()) + 1);
 		$template = get_stylesheet_directory() != substr($template, 0, strlen(get_stylesheet_directory())) ? $template : substr($template, strlen(get_stylesheet_directory()) + 1);
 		$template = '.php' != substr($template, -4) ? $template : substr($template, 0, -4);
-		// $template = 'templates.' == substr($template, 0, 10) ? $template : 'templates.' . $template;
+		$template = 'theme.templates.' == substr($template, 0, 16) ? $template : 'theme.templates.' . $template;
 
 		$mappedTemplate = static::mapTemplate($template);
 		$template = locate_template($mappedTemplate);
 
-		return new Loader($template);
+		return $template ? new Loader($template) : null;
 	}
 
 	/**
 	 * Maps template
-	 * @param  string $template 
-	 * @return string           
+	 * @param  string $template
+	 * @return string
 	 */
 	private static function mapTemplate($template)
 	{
-		$template = str_replace('.', '/', $template);	
+		$template = str_replace('.', '/', $template);
 		// check template engine
 		$template .= '.php';
 
@@ -47,7 +47,7 @@ class Loader
 
 	/**
 	 * Constructor
-	 * @param string $template 
+	 * @param string $template
 	 */
 	public function __construct($template)
 	{
@@ -56,7 +56,7 @@ class Loader
 
 	/**
 	 * Returns this template
-	 * @return string 
+	 * @return string
 	 */
 	public function __toString()
 	{

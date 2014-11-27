@@ -1,0 +1,20 @@
+{
+    "name": "binocle/component",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dennis Enderink",
+            "email": "dennis@stayhungry.nl"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "binocle/support": "1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Binocle\\Component\\": ""
+        }
+    },
+    "minimum-stability": "dev"
+}

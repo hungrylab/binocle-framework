@@ -10,11 +10,15 @@
     ],
     "autoload": {
         "psr-4": {
-            "Binocle\\": "src/"
+            "Binocle\\": "src/Binocle"
         }
     },
     "require": {
-        "php": ">=5.4.0",
-        "pimple/pimple": "~3.0"
+        "php": ">=5.4.0"
+    },
+     "replace": {
+        "binocle/support": "self.version",
+        "binocle/component": "self.version",
+        "binocle/theme": "self.version"
     }
 }

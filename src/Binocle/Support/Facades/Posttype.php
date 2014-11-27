@@ -1,6 +1,6 @@
 <?php
 
-namespace Binocle\Core\Facades;
+namespace Binocle\Support\Facades;
 
 class Posttype extends \Binocle\Support\Facade
 {

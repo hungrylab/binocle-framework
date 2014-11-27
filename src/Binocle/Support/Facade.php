@@ -18,7 +18,7 @@ abstract class Facade
 
 	/**
 	 * Gets instance of facade from container by using accessor
-	 * @return object 
+	 * @return object
 	 */
 	private static function getInstance()
 	{
@@ -47,7 +47,7 @@ abstract class Facade
 
 	/**
 	 * Gets the accessor of facade
-	 * @return string 
+	 * @return string
 	 */
 	protected static function getContainerAccessor()
 	{

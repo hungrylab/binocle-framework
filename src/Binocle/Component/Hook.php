@@ -1,6 +1,6 @@
 <?php
 
-namespace Binocle\Core;
+namespace Binocle\Component;
 
 use Binocle\Support;
 
@@ -8,9 +8,9 @@ class Hook
 {
 	/**
 	 * Add hook
-	 * @param string $hook   
-	 * @param mixed $action 
-	 * @param string $type   
+	 * @param string $hook
+	 * @param mixed $action
+	 * @param string $type
 	 * @return bool
 	 */
 	public function add($hook, $action, $type = 'action')
@@ -21,9 +21,9 @@ class Hook
 
 	/**
 	 * Remove hook
-	 * @param  string $hook   
-	 * @param  mixed $action 
-	 * @param  string $type   
+	 * @param  string $hook
+	 * @param  mixed $action
+	 * @param  string $type
 	 * @return bool
 	 */
 	public function remove($hook, $action, $type = 'action')

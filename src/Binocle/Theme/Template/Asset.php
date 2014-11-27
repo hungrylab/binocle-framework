@@ -1,6 +1,6 @@
 <?php
 
-namespace Binocle\Core\Template;
+namespace Binocle\Theme\Template;
 
 use Hook;
 
@@ -25,11 +25,11 @@ class Asset
 
 	/**
 	 * Adds script
-	 * @param string  $handle 
-	 * @param string  $src    
-	 * @param array   $deps   
-	 * @param boolean $ver    
-	 * @param boolean $inFooter  
+	 * @param string  $handle
+	 * @param string  $src
+	 * @param array   $deps
+	 * @param boolean $ver
+	 * @param boolean $inFooter
 	 */
 	public function addScript($handle, $src = null, $deps = array(), $ver = false, $inFooter = false)
 	{
@@ -40,11 +40,11 @@ class Asset
 
 	/**
 	 * Adds style
-	 * @param string  $handle 
-	 * @param string  $src    
-	 * @param array   $deps   
-	 * @param boolean $ver    
-	 * @param boolean $media  
+	 * @param string  $handle
+	 * @param string  $src
+	 * @param array   $deps
+	 * @param boolean $ver
+	 * @param boolean $media
 	 */
 	public function addStyle($handle, $src = null, $deps = array(), $ver = false, $media = false)
 	{
@@ -55,9 +55,9 @@ class Asset
 
 	/**
 	 * Generic add function
-	 * @param string $handle 
-	 * @param string $type   
-	 * @param array  $args   
+	 * @param string $handle
+	 * @param string $type
+	 * @param array  $args
 	 */
 	public function add($handle, $type, $args = array())
 	{
@@ -83,8 +83,8 @@ class Asset
 
 	/**
 	 * Removes asset, when no type is given it tries to find it
-	 * @param  string $handle 
-	 * @param  string $type   
+	 * @param  string $handle
+	 * @param  string $type
 	 * @return bool
 	 */
 	public function remove($handle, $type = null)
@@ -118,7 +118,7 @@ class Asset
 
 	/**
 	 * Enqueues all assets
-	 * @return void 
+	 * @return void
 	 */
 	public function enqueue()
 	{

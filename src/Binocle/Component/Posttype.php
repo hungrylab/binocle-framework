@@ -1,6 +1,6 @@
 <?php
 
-namespace Binocle\Core;
+namespace Binocle\Component;
 
 class Posttype
 {
@@ -9,6 +9,11 @@ class Posttype
 	 * @var array
 	 */
 	private $posttypes;
+	/**
+	 * Default queries
+	 * @var array
+	 */
+	private $queries;
 
 	/**
 	 * Constructor
@@ -16,6 +21,7 @@ class Posttype
 	public function __construct()
 	{
 		Hook::add('after_setup_theme', array($this, 'registerPosttypes'));
+		Hook::add('pre_get_posts', [$this, 'setDefaultQuery']);
 	}
 
 	/**
@@ -36,6 +42,12 @@ class Posttype
 			'has_archive' => true,
 		), $args);
 
+		if (isset($args['query'])) {
+			$this->queries[$typeName] = $args['query'];
+
+			unset($args['query']);
+		}
+
 		$this->posttypes[$typeName] = $args;
 
 		return true;
@@ -43,7 +55,7 @@ class Posttype
 
 	/**
 	 * Registers post types, called by hook
-	 * @return void 
+	 * @return void
 	 */
 	public function registerPosttypes()
 	{
@@ -52,5 +64,21 @@ class Posttype
 		}
 
 		return;
+	}
+
+	/**
+	 * Set default query parameters
+	 * @param  object $query
+	 * @return null
+	 */
+	public function setDefaultQuery($query)
+	{
+		if ($this->queries && $query->is_main_query() && is_post_type_archive()) {
+			if (in_array($query->query['post_type'], array_keys($this->queries))) {
+				foreach ($this->queries[$query->query['post_type']] as $argument => $value) {
+					$query->set($argument, $value);
+				}
+			}
+		}
 	}
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace Binocle\Core;
+namespace Binocle\Theme;
 
 use Binocle\Support\Container as Container;
-use \Config;
-use \Hook;
+use Binocle\Support\Config as Config;
+use Binocle\Component\Hook as Hook;
 
-class Theme
+class Loader
 {
 	/**
 	 * Instance of IoC DIC
@@ -20,43 +20,49 @@ class Theme
 	public function __construct()
 	{
 		$this->container = Container::getInstance();
-		
+
 		// set dependencies
 		$this->container['hook'] = function($c) {
-			return new \Binocle\Core\Hook;
+			return new \Binocle\Component\Hook;
 		};
 
 		$this->container['template'] = function($c) {
-			return new \Binocle\Core\Template($c);
+			return new \Binocle\Theme\Template($c);
 		};
 
 		$this->container['asset'] = function($c) {
-			return new \Binocle\Core\Template\Asset;
+			return new \Binocle\Theme\Template\Asset;
 		};
 
 		$this->container['config'] = function($c) {
-			return new \Binocle\Core\Config;
+			return new \Binocle\Support\Config;
 		};
 
 		$this->container['posttype'] = function($c) {
-			return new \Binocle\Core\Posttype;
+			return new \Binocle\Component\Posttype;
+		};
+
+		$this->container['path'] = function($c) {
+			return new \Binocle\Support\Path;
 		};
 
 		// set aliases
-		class_alias('Binocle\Core\Facades\Asset', 'Asset');
-		class_alias('Binocle\Core\Facades\Hook', 'Hook');
-		class_alias('Binocle\Core\Facades\Config', 'Config');
-		class_alias('Binocle\Core\Facades\Posttype', 'Posttype');
+		class_alias('Binocle\Support\Facades\Template', 'Template');
+		class_alias('Binocle\Support\Facades\Asset', 'Asset');
+		class_alias('Binocle\Support\Facades\Hook', 'Hook');
+		class_alias('Binocle\Support\Facades\Config', 'Config');
+		class_alias('Binocle\Support\Facades\Posttype', 'Posttype');
+		class_alias('Binocle\Support\Facades\Path', 'Path');
 	}
 
 	/**
 	 * Boot theme
-	 * @return void 
+	 * @return void
 	 */
 	public function boot($child = null)
 	{
 		// load template
-		$this->container['template'];
+		// $this->container['template'];
 
 		// clean up
 		// todo
@@ -65,6 +71,10 @@ class Theme
 		$this->doDefault();
 
 		// run child
+		if ($functions = \Path::find('theme.functions')) {
+			include($functions);
+		}
+
 		if ($child) {
 			$child();
 		}
@@ -74,10 +84,13 @@ class Theme
 	{
 		$theme = Config::get('theme');
 		$menus = Config::get('menu');
+
 		Hook::add('after_setup_theme', function() use ($theme, $menus) {
 			// add theme support
-			foreach ($theme['support'] as $feature => $args) {
-				add_theme_support($feature);
+			if (isset($theme['support'])) {
+				foreach ($theme['support'] as $feature => $args) {
+					add_theme_support($feature);
+				}
 			}
 
 			// add image sizes

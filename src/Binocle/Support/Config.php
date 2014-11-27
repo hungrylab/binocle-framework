@@ -1,8 +1,6 @@
 <?php
 
-namespace Binocle\Core;
-
-use \Binocle\Support\Path as Path;
+namespace Binocle\Support;
 
 class Config
 {
@@ -19,30 +17,22 @@ class Config
 	private $path;
 
 	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		$this->path = new Path;
-	}
-		
-	/**
-	 * Gets (extended) config 
+	 * Gets (extended) config
 	 * @param  string $identifier
 	 * @return array
 	 */
 	public function get($identifier)
 	{
 		if (!isset($this->configs[$identifier])) {
-			$files = $this->path->find('config.' . $identifier, false);
-			
+			$files = \Path::find('theme.config.' . $identifier, false);
+
 			$config = array();
 			foreach ($files as $file) {
 				$fileContent = include($file);
 				$fileContent = $fileContent ? $fileContent : array();
 				$config = array_merge($config, $fileContent);
 			}
-			
+
 			$this->config[$identifier] = $config;
 		}
 
