@@ -14,7 +14,8 @@
         }
     },
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "pimple/pimple": "~3.0"
     },
      "replace": {
         "binocle/support": "self.version",
