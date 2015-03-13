@@ -28,7 +28,7 @@ class Posttype
 	 * Add new posttype
 	 * @param string $typeName
 	 */
-	public function add($typeName, $args)
+	public function add($typeName, $args = [])
 	{
 		// set default
 		$args = array_merge_recursive(array(
@@ -73,7 +73,7 @@ class Posttype
 	 */
 	public function setDefaultQuery($query)
 	{
-		if ($this->queries && $query->is_main_query() && is_post_type_archive()) {
+		if ($this->queries && $query->is_main_query() && !is_admin() && is_post_type_archive()) {
 			if (in_array($query->query['post_type'], array_keys($this->queries))) {
 				foreach ($this->queries[$query->query['post_type']] as $argument => $value) {
 					$query->set($argument, $value);

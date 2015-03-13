@@ -13,10 +13,10 @@ class Hook
 	 * @param string $type
 	 * @return bool
 	 */
-	public function add($hook, $action, $type = 'action')
+	public function add($hook, $action, $type = 'action', $priority = 10, $numArgs = 1)
 	{
 		$function = 'add_' . $type;
-		return $function($hook, $action);
+		return $function($hook, $action, $priority, $numArgs);
 	}
 
 	/**
@@ -26,9 +26,9 @@ class Hook
 	 * @param  string $type
 	 * @return bool
 	 */
-	public function remove($hook, $action, $type = 'action')
+	public function remove($hook, $action, $type = 'action', $priority = 10)
 	{
 		$func = 'remove_' . $type;
-		return $func($hook, $action);
+		return $func($hook, $action, $priority);
 	}
 }

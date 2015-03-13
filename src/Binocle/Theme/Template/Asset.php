@@ -30,6 +30,7 @@ class Asset
 	 * @param array   $deps
 	 * @param boolean $ver
 	 * @param boolean $inFooter
+	 * @return boolean
 	 */
 	public function addScript($handle, $src = null, $deps = array(), $ver = false, $inFooter = false)
 	{
@@ -45,6 +46,7 @@ class Asset
 	 * @param array   $deps
 	 * @param boolean $ver
 	 * @param boolean $media
+	 * @return boolean
 	 */
 	public function addStyle($handle, $src = null, $deps = array(), $ver = false, $media = false)
 	{
@@ -58,12 +60,13 @@ class Asset
 	 * @param string $handle
 	 * @param string $type
 	 * @param array  $args
+	 * @return boolean
 	 */
 	public function add($handle, $type, $args = array())
 	{
-		list($src, $deps, $ver, $last) = $args;
+		list($src, $deps, $ver, $last) = $args + [null, null, null, null];
 
-		$data = array();
+		$data = [];
 		if ($src)
 			$data['src'] = $src;
 
@@ -73,7 +76,7 @@ class Asset
 		if ($ver)
 			$data['ver'] = $ver;
 
-		if ($last)
+		if (null !== $last)
 			$data[('script' == $type ? 'in_footer' : 'media')] = $last;
 
 		$this->assets[$type][$handle] = $data;
@@ -122,19 +125,29 @@ class Asset
 	 */
 	public function enqueue()
 	{
+		if ($this->deregister) {
+			foreach ($this->deregister as $type => $handles) {
+				$function = 'wp_deregister_' . $type;
+				foreach ($handles as $handle) {
+					$function($handle);
+				}
+			}
+		}
+
 		if ($this->assets) {
 			foreach ($this->assets as $type => $assets) {
 				$registerFunc = 'wp_register_' . $type;
 				$enqueueFunc = 'wp_enqueue_' . $type;
 				foreach ($assets as $handle => $data) {
 					if ($data) {
-						$data = array_merge(array(
+						$data = $data + [
 							'src' => null,
 							'deps' => array(),
 							'ver' => false,
-							'in_footer' => false,
+							'in_footer' => true,
 							'media' => 'all',
-						), $data);
+						];
+
 						$lastArg = 'script' == $type ? $data['in_footer'] : $data['media'];
 						$registerFunc($handle, $data['src'], $data['deps'], $data['ver'], $lastArg);
 					}
@@ -144,13 +157,5 @@ class Asset
 			}
 		}
 
-		if ($this->deregister) {
-			foreach ($this->deregister as $type => $handles) {
-				$function = 'wp_deregister_' . $type;
-				foreach ($handles as $handle) {
-					$function($handle);
-				}
-			}
-		}
 	}
 }

@@ -51,7 +51,7 @@ class Finder
 		]
 	];
 
-	private $varRegex = '/\{[a-z_]+\}/';
+	private $varRegex = '/\{([a-z_]+)\}/';
 
 	public function get($type)
 	{
@@ -112,8 +112,12 @@ class Finder
 			$object = get_queried_object();
 			if (!empty($object->slug)) {
 				foreach ($templates as &$template) {
-					preg_match($this->varRegex, $template, $vars);
-					var_dump($vars);
+					preg_match_all($this->varRegex, $template, $vars, PREG_SET_ORDER);
+					if (count($vars)) {
+						foreach ($vars as $var) {
+							$template = str_replace($var[0], $object->{$var[1]}, $template);
+						}
+					}
 				}
 			}
 		}
@@ -124,12 +128,25 @@ class Finder
 	private function replaceArchiveVarTemplates($templates)
 	{
 		$postTypes = array_filter((array)get_query_var('post_type'));
+		$postType = '';
 		if (count($postTypes) == 1) {
 			$postType = reset($postTypes);
 		}
 
 		foreach ($templates as &$template) {
 			$template = str_replace('{post_type}', $postType, $template);
+		}
+
+		return $templates;
+	}
+
+	private function replaceSingleVarTemplates($templates)
+	{
+		$object = get_queried_object();
+		if (!empty($object->post_type)) {
+			foreach ($templates as &$template) {
+				$template = str_replace('{post_type}', $object->post_type, $template);
+			}
 		}
 
 		return $templates;

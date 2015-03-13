@@ -3,8 +3,8 @@
 namespace Binocle\Theme;
 
 use Binocle\Support\Container as Container;
-use Binocle\Support\Config as Config;
-use Binocle\Component\Hook as Hook;
+use Config;
+use Hook;
 
 class Loader
 {
@@ -22,9 +22,11 @@ class Loader
 		$this->container = Container::getInstance();
 
 		// set dependencies
-		$this->container['hook'] = function($c) {
-			return new \Binocle\Component\Hook;
-		};
+		if (!isset($this->container['hook'])) {
+			$this->container['hook'] = function($c) {
+				return new \Binocle\Component\Hook;
+			};
+		}
 
 		$this->container['template'] = function($c) {
 			return new \Binocle\Theme\Template($c);
@@ -38,9 +40,11 @@ class Loader
 			return new \Binocle\Support\Config;
 		};
 
-		$this->container['posttype'] = function($c) {
-			return new \Binocle\Component\Posttype;
-		};
+		if (!isset($this->container['posttype'])) {
+			$this->container['posttype'] = function($c) {
+				return new \Binocle\Component\Posttype;
+			};
+		}
 
 		$this->container['path'] = function($c) {
 			return new \Binocle\Support\Path;
@@ -49,9 +53,13 @@ class Loader
 		// set aliases
 		class_alias('Binocle\Support\Facades\Template', 'Template');
 		class_alias('Binocle\Support\Facades\Asset', 'Asset');
-		class_alias('Binocle\Support\Facades\Hook', 'Hook');
+		if (!class_exists('Hook')) {
+			class_alias('Binocle\Support\Facades\Hook', 'Hook');
+		}
 		class_alias('Binocle\Support\Facades\Config', 'Config');
-		class_alias('Binocle\Support\Facades\Posttype', 'Posttype');
+		if (!class_exists('Posttype')) {
+			class_alias('Binocle\Support\Facades\Posttype', 'Posttype');
+		}
 		class_alias('Binocle\Support\Facades\Path', 'Path');
 	}
 
@@ -103,6 +111,24 @@ class Loader
 					), $args);
 
 					add_image_size($name, $args['width'], $args['height'], $args['crop']);
+				}
+			}
+
+			// add sidebars
+			if (isset($theme['sidebar'])) {
+				foreach ($theme['sidebar'] as $name => $args) {
+					if (isset($args['number'])) {
+						$number = $args['number'];
+						unset($args['number']);
+
+						if (!preg_match('/\%\d/', $name)) {
+							$name = $name . ' %d';
+						}
+
+						register_sidebars($number, ['name' => $name] + $args);
+					} else {
+						register_sidebar(['name' => $name] + $args);
+					}
 				}
 			}
 
