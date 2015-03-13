@@ -36,7 +36,7 @@ class Template
 
 		Asset::addStyle('normalize', get_template_directory_uri() . '/assets/bower_components/foundation/css/normalize.css');
 		Asset::addStyle('foundation', get_template_directory_uri() . '/assets/bower_components/foundation/css/foundation.css', ['normalize'], $foundationVersion);
-		Asset::addStyle('app', get_template_directory_uri() . '/assets/stylesheets/app.css', ['foundation']);
+		Asset::addStyle('app', get_template_directory_uri() . '/assets/css/app.css', ['foundation']);
 	}
 
 	public function load()
