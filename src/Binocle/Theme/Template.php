@@ -60,7 +60,6 @@ class Template
 		elseif (is_author()         && $template = $finder->get('author')				) :
 		elseif (is_date()           && $template = $finder->get('date')					) :
 		elseif (is_archive()        && $template = $finder->get('archive')				) :
-		elseif (is_comments_popup() && $template = $finder->get('comments_popup')		) :
 		elseif (is_paged()          && $template = $finder->get('paged')				) :
 		else :
 			$template = $finder->get('index');
