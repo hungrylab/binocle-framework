@@ -17,17 +17,22 @@ class Loader
 	 * @param  string $template 
 	 * @return object
 	 */
-	public static function load($template)
+	public static function load($template, $isTemplate = true)
 	{
 		// alter template so that it works
 		$template = get_template_directory() != substr($template, 0, strlen(get_template_directory())) ? $template : substr($template, strlen(get_template_directory()) + 1);
 		$template = get_stylesheet_directory() != substr($template, 0, strlen(get_stylesheet_directory())) ? $template : substr($template, strlen(get_stylesheet_directory()) + 1);
 		$template = '.php' != substr($template, -4) ? $template : substr($template, 0, -4);
-		// $template = 'templates.' == substr($template, 0, 10) ? $template : 'templates.' . $template;
+		
+		if ($isTemplate) {
+			$template = 'templates.' == substr($template, 0, 10) ? $template : 'templates.' . $template;
+		}
+
+		$template = 'theme.' . $template;
 
 		$mappedTemplate = static::mapTemplate($template);
 		$template = locate_template($mappedTemplate);
-
+		
 		return new Loader($template);
 	}
 

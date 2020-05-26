@@ -98,5 +98,7 @@ class Theme
 				register_nav_menu($location, $name);
 			}
 		});
+
+		 include(Template\Loader::load('functions', false));
 	}
 }

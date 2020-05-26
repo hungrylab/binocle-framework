@@ -61,6 +61,7 @@ class Asset
 	 */
 	public function add($handle, $type, $args = array())
 	{
+		$args = array_merge($args, array(null, null, null, null));
 		list($src, $deps, $ver, $last) = $args;
 
 		$data = array();
