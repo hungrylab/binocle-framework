@@ -2,6 +2,8 @@
 
 namespace Binocle\Component;
 
+use Hook;
+
 class Posttype
 {
 	/**
