@@ -20,7 +20,7 @@ class Asset
 	public function __construct()
 	{
 		// add enqueue hook
-		Hook::add('wp_enqueue_scripts', array($this, 'enqueue'));
+		Hook::add('wp_enqueue_scripts', array($this, 'enqueue'), 'action', 1);
 	}
 
 	/**
