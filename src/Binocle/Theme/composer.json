@@ -1,21 +1,21 @@
 {
-    "name": "binocle/support",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Dennis Enderink",
-            "email": "dennis@stayhungry.nl"
-        }
-    ],
-    "require": {
-        "php": ">=5.4.0",
-        "binocle/support": "dev-master",
-        "binocle/component": "dev-master"
-    },
-    "autoload": {
-        "psr-4": {
-            "Binocle\\Theme\\": ""
-        }
-    },
-    "minimum-stability": "dev"
+	"name": "binocle/support",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Dennis Enderink",
+			"email": "dennis@stayhungry.nl"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0",
+		"binocle/support": "dev-master",
+		"binocle/component": "dev-master"
+	},
+	"autoload": {
+		"psr-4": {
+			"Binocle\\Theme\\": ""
+		}
+	},
+	"minimum-stability": "dev"
 }

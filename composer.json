@@ -1,25 +1,25 @@
 {
-    "name": "hungrylab/binocle-framework",
-    "description": "A modern PHP WordPress theme framework",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Dennis Enderink",
-            "email": "dennis@stayhungry.nl"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Binocle\\": "src/Binocle"
-        }
-    },
-    "require": {
-        "php": ">=5.4.0",
-        "pimple/pimple": "~3.0"
-    },
-     "replace": {
-        "binocle/support": "self.version",
-        "binocle/component": "self.version",
-        "binocle/theme": "self.version"
-    }
+	"name": "hungrylab/binocle-framework",
+	"description": "A modern PHP WordPress theme framework",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Dennis Enderink",
+			"email": "dennis@stayhungry.nl"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Binocle\\": "src/Binocle"
+		}
+	},
+	"require": {
+		"php": ">=5.4.0",
+		"pimple/pimple": "~3.0"
+	},
+	 "replace": {
+		"binocle/support": "self.version",
+		"binocle/component": "self.version",
+		"binocle/theme": "self.version"
+	}
 }
