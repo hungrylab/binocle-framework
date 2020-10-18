@@ -107,17 +107,20 @@ class Finder
 	{
 		$method = 'replace' . ucfirst(strtolower($type)) . 'VarTemplates';
 		if (method_exists($this, $method)) {
-			$templates = $this->{$method}($templates);
-		} else {
-			$object = get_queried_object();
-			if (!empty($object->slug)) {
-				foreach ($templates as &$template) {
-					preg_match_all($this->varRegex, $template, $vars, PREG_SET_ORDER);
-					if (count($vars)) {
-						foreach ($vars as $var) {
-							$template = str_replace($var[0], $object->{$var[1]}, $template);
-						}
-					}
+			return $this->{$method}($templates);
+		}
+
+		$object = get_queried_object();
+
+		if (empty($object->slug)) {
+			return $templates;
+		}
+
+		foreach ($templates as &$template) {
+			preg_match_all($this->varRegex, $template, $vars, PREG_SET_ORDER);
+			if (count($vars)) {
+				foreach ($vars as $var) {
+					$template = str_replace($var[0], $object->{$var[1]}, $template);
 				}
 			}
 		}
@@ -143,10 +146,13 @@ class Finder
 	private function replaceSingleVarTemplates($templates)
 	{
 		$object = get_queried_object();
+
 		if (!empty($object->post_type)) {
-			foreach ($templates as &$template) {
-				$template = str_replace('{post_type}', $object->post_type, $template);
-			}
+			return $templates;
+		}
+
+		foreach ($templates as &$template) {
+			$template = str_replace('{post_type}', $object->post_type, $template);
 		}
 
 		return $templates;
