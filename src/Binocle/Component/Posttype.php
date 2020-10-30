@@ -4,83 +4,88 @@ namespace Binocle\Component;
 
 use Hook;
 
+/**
+ * Class Posttype
+ * @package Binocle\Component
+ */
 class Posttype
 {
-	/**
-	 * Keeps all custom post types
-	 * @var array
-	 */
-	private $posttypes;
-	/**
-	 * Default queries
-	 * @var array
-	 */
-	private $queries;
+    /**
+     * Keeps all custom post types
+     * @var array
+     */
+    private $posttypes;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		Hook::add('after_setup_theme', array($this, 'registerPosttypes'));
-		Hook::add('pre_get_posts', [$this, 'setDefaultQuery']);
-	}
+    /**
+     * Default queries
+     * @var array
+     */
+    private $queries;
 
-	/**
-	 * Add new posttype
-	 * @param string $typeName
-	 */
-	public function add($typeName, $args = [])
-	{
-		// set default
-		$args = array_merge_recursive(array(
-			'public' => true,
-			'supports' => array(
-				'title',
-				'editor',
-				'thumbnail',
-				'revisions',
-			),
-			'has_archive' => true,
-		), $args);
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        Hook::add('after_setup_theme', [$this, 'registerPosttypes']);
+        Hook::add('pre_get_posts', [$this, 'setDefaultQuery']);
+    }
 
-		if (isset($args['query'])) {
-			$this->queries[$typeName] = $args['query'];
+    /**
+     * Add new posttype
+     * @param string $typeName
+     */
+    public function add($typeName, $args = [])
+    {
+        // set default
+        $args = array_merge_recursive([
+            'public' => true,
+            'supports' => [
+                'title',
+                'editor',
+                'thumbnail',
+                'revisions',
+            ],
+            'has_archive' => true,
+        ], $args);
 
-			unset($args['query']);
-		}
+        if (isset($args['query'])) {
+            $this->queries[$typeName] = $args['query'];
 
-		$this->posttypes[$typeName] = $args;
+            unset($args['query']);
+        }
 
-		return true;
-	}
+        $this->posttypes[$typeName] = $args;
 
-	/**
-	 * Registers post types, called by hook
-	 * @return void
-	 */
-	public function registerPosttypes()
-	{
-		foreach ($this->posttypes as $typeName => $args) {
-			register_post_type($typeName, $args);
-		}
+        return true;
+    }
 
-		return;
-	}
+    /**
+     * Registers post types, called by hook
+     * @return void
+     */
+    public function registerPosttypes()
+    {
+        foreach ($this->posttypes as $typeName => $args) {
+            register_post_type($typeName, $args);
+        }
 
-	/**
-	 * Set default query parameters
-	 * @param  object $query
-	 * @return null
-	 */
-	public function setDefaultQuery($query)
-	{
-		if ($this->queries && $query->is_main_query() && !is_admin() && is_post_type_archive()) {
-			if (in_array($query->query['post_type'], array_keys($this->queries))) {
-				foreach ($this->queries[$query->query['post_type']] as $argument => $value) {
-					$query->set($argument, $value);
-				}
-			}
-		}
-	}
+        return;
+    }
+
+    /**
+     * Set default query parameters
+     * @param object $query
+     * @return null
+     */
+    public function setDefaultQuery($query)
+    {
+        if ($this->queries && $query->is_main_query() && !is_admin() && is_post_type_archive()) {
+            if (in_array($query->query['post_type'], array_keys($this->queries))) {
+                foreach ($this->queries[$query->query['post_type']] as $argument => $value) {
+                    $query->set($argument, $value);
+                }
+            }
+        }
+    }
 }

@@ -2,6 +2,10 @@
 
 namespace Binocle\Component;
 
+/**
+ * Class Taxonomy
+ * @package Binocle\Component
+ */
 class Taxonomy
 {
     /**
@@ -17,6 +21,7 @@ class Taxonomy
     {
         \Hook::add('init', [$this, 'registerTaxonomies']);
     }
+
     /**
      * Add new taxonomy
      *
@@ -35,6 +40,9 @@ class Taxonomy
         return $this;
     }
 
+    /**
+     * Registers all set taxonomies
+     */
     public function registerTaxonomies()
     {
         foreach ($this->taxonomies as $taxonomyName => $info) {

@@ -2,48 +2,79 @@
 
 namespace Binocle\Support;
 
+/**
+ * Class Path
+ * @package Binocle\Support
+ */
 class Path
 {
-	private $templatePath;
-	private $templateUrl;
-	private $stylesheetPath;
-	private $stylesheetUrl;
+    /**
+     * @var string
+     */
+    private $templatePath;
 
-	public function __construct()
-	{
-		$this->templatePath = get_template_directory();
-		$this->templateUrl = get_template_directory_uri();
+    /**
+     * @var string
+     */
+    private $templateUrl;
 
-		if ($this->templatePath != get_stylesheet_directory()) {
-			$this->stylesheetPath = get_stylesheet_directory();
-			$this->stylesheetUrl = get_stylesheet_directory_uri();
-		}
-	}
+    /**
+     * @var string
+     */
+    private $stylesheetPath;
 
-	public function find($path, $overload = true)
-	{
-		$path = $this->mapPath($path);
-		$path = '.php' != substr($path, -4) ? $path . '.php' : $path;
-		$path = '/' == substr($path, 0, 1) ? substr($path, 1) : $path;
+    /**
+     * @var string
+     */
+    private $stylesheetUrl;
 
-		if ($overload) {
-			return locate_template($path);
-		} else {
-			$files = array();
-			if (is_readable($this->templatePath . '/' . $path)) {
-				$files[] = $this->templatePath . '/' . $path;
-			}
+    /**
+     * Path constructor.
+     */
+    public function __construct()
+    {
+        $this->templatePath = get_template_directory();
+        $this->templateUrl = get_template_directory_uri();
 
-			if ($this->stylesheetPath && is_readable($this->stylesheetPath . '/' . $path)) {
-				$files[] = $this->stylesheetPath . '/' . $path;
-			}
+        if ($this->templatePath !== get_stylesheet_directory()) {
+            $this->stylesheetPath = get_stylesheet_directory();
+            $this->stylesheetUrl = get_stylesheet_directory_uri();
+        }
+    }
 
-			return $files;
-		}
-	}
+    /**
+     * @param $path
+     * @param bool $overload
+     * @return array
+     */
+    public function find($path, $overload = true)
+    {
+        $path = $this->mapPath($path);
+        $path = '.php' != substr($path, -4) ? $path . '.php' : $path;
+        $path = '/' == substr($path, 0, 1) ? substr($path, 1) : $path;
 
-	public function mapPath($path)
-	{
-		return str_replace('.', '/', $path);
-	}
+        if ($overload) {
+            return locate_template($path);
+        } else {
+            $files = [];
+            if (is_readable($this->templatePath . '/' . $path)) {
+                $files[] = $this->templatePath . '/' . $path;
+            }
+
+            if ($this->stylesheetPath && is_readable($this->stylesheetPath . '/' . $path)) {
+                $files[] = $this->stylesheetPath . '/' . $path;
+            }
+
+            return $files;
+        }
+    }
+
+    /**
+     * @param $path
+     * @return string|string[]
+     */
+    public function mapPath($path)
+    {
+        return str_replace('.', '/', $path);
+    }
 }

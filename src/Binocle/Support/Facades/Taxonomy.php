@@ -2,7 +2,17 @@
 
 namespace Binocle\Support\Facades;
 
+/**
+ * Class Taxonomy
+ * @package Binocle\Support\Facades
+ */
 class Taxonomy extends \Binocle\Support\Facade
 {
-    protected static function getContainerAccessor() { return 'taxonomy'; }
+    /**
+     * @return string
+     */
+    protected static function getContainerAccessor()
+    {
+        return 'taxonomy';
+    }
 }
