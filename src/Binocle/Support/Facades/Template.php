@@ -2,7 +2,17 @@
 
 namespace Binocle\Support\Facades;
 
+/**
+ * Class Template
+ * @package Binocle\Support\Facades
+ */
 class Template extends \Binocle\Support\Facade
 {
-	protected static function getContainerAccessor() { return 'template'; }
+    /**
+     * @return string
+     */
+    protected static function getContainerAccessor()
+    {
+        return 'template';
+    }
 }

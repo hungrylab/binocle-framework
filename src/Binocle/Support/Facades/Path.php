@@ -2,7 +2,17 @@
 
 namespace Binocle\Support\Facades;
 
+/**
+ * Class Path
+ * @package Binocle\Support\Facades
+ */
 class Path extends \Binocle\Support\Facade
 {
-	protected static function getContainerAccessor() { return 'path'; }
+    /**
+     * @return string
+     */
+    protected static function getContainerAccessor()
+    {
+        return 'path';
+    }
 }
